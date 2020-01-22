@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardikKitchen", "HardikKitc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taste.DataAccess", "Taste.DataAccess\Taste.DataAccess.csproj", "{754D3F70-68FA-4D0A-83B7-5F79F34A146A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Models", "Test.Models\Test.Models.csproj", "{E6DC98F4-90A6-4C48-B235-DA22EFC91775}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taste.Models", "Test.Models\Taste.Models.csproj", "{E6DC98F4-90A6-4C48-B235-DA22EFC91775}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Utility", "Test.Utility\Test.Utility.csproj", "{0263E9C7-2D08-44C3-80CB-8AAE52E724DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taste.Utility", "Test.Utility\Taste.Utility.csproj", "{0263E9C7-2D08-44C3-80CB-8AAE52E724DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
