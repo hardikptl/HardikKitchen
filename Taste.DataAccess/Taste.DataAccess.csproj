@@ -11,4 +11,10 @@
     <PackageReference Include="Stripe.net" Version="29.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Intializer\" />
+    <Folder Include="Repository\IRepository\" />
+  </ItemGroup>
+
 </Project>
