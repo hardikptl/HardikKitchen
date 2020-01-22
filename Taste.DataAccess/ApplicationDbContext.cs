@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace HardikKitchen.Data
+namespace HardikKitchen.DataAccess
 {
     public class ApplicationDbContext : IdentityDbContext
     {
