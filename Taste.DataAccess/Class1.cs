@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Test.Utility
+namespace Taste.DataAccess
 {
     public class Class1
     {
