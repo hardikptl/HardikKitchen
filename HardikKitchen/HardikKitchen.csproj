@@ -22,4 +22,11 @@
     <ProjectReference Include="..\Test.Models\Test.Models.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Pages\Admin\" />
+    <Folder Include="Pages\Customer\Cart\" />
+    <Folder Include="Pages\Customer\Home\" />
+  </ItemGroup>
+
 </Project>
