@@ -30,10 +30,10 @@ namespace Test.Models
         public virtual Category Category { get; set; }
 
         [Display(Name = "Food Type")]
-        public int FoodTypeID { get; set; }
+        public int FoodTypeId{ get; set; }
 
         //this is get id from above FoodTypeID varible and set forreignkey relation 
-        [ForeignKey("FoodTypeID")]
+        [ForeignKey("FoodTypeId")]
         public virtual FoodType FoodType { get; set; }
 
 
