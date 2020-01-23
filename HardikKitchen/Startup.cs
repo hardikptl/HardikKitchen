@@ -12,8 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Taste.DataAccess;
-
-
+using Taste.DataAccess.Data.Repository.IRepository;
+using Taste.DataAccess.Data.Repository;
 
 namespace HardikKitchen
 {
@@ -34,6 +34,8 @@ namespace HardikKitchen
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //setting endpointrouting false and compability version 3.0
             services.AddMvc(options => options.EnableEndpointRouting = false)
