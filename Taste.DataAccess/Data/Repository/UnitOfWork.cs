@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Taste.DataAccess.Data.Repository.IRepository;
+using Test.Models;
 
 namespace Taste.DataAccess.Data.Repository
 {
@@ -14,9 +15,12 @@ namespace Taste.DataAccess.Data.Repository
         {
             _db = db;
             Category = new CategoryRepository(_db);
+            FoodType = new FoodTypeRepository(_db);
+           
         }        
 
         public ICategoryRepository Category { get; private set; }
+        public IFoodTypeRepository FoodType { get; private set; }
 
         public void Dispose()
         {
