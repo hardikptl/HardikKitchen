@@ -39,6 +39,7 @@ function loadList() {
     });
 }
 
+
 function Delete(url) {
     swal({
         title: "Are you sure want to Delete?",
