@@ -26,6 +26,18 @@ namespace HardikKitchen.Controllers
             return Json(new { data = _unitOfWork.Category.GetAll() });
 
         }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var ObjFromDb = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
+            if (ObjFromDb == null)
+            {
+                return Json(new { success = false, Message = "Error While Deleting" });
+            }
+            _unitOfWork.Category.Remove(ObjFromDb);
+            _unitOfWork.Save();
+            return Json(new { success = true, message = "Delete Successful" });
+        }
 
     }
 }
