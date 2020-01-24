@@ -69,7 +69,7 @@ namespace HardikKitchen.Pages.Admin.MenuItem
                 {
                     files[0].CopyTo(fileStream);
                 }
-                MenuItemObj.MenuItem.Image = @"\images\menuItems\" + fileName + extension;
+                MenuItemObj.MenuItem.Image = @"\images\menuItems" + fileName + extension;
 
                 _unitOfWork.MenuItem.Add(MenuItemObj.MenuItem);
             }
