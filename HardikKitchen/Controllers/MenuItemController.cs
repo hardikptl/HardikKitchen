@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -32,14 +33,26 @@ namespace HardikKitchen.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var ObjFromDb = _unitOfWork.MenuItem.GetFirstOrDefault(u => u.Id == id);
-            if (ObjFromDb == null)
+            try
+            {
+                var ObjFromDb = _unitOfWork.MenuItem.GetFirstOrDefault(u => u.Id == id);
+                if (ObjFromDb == null)
+                {
+                    return Json(new { success = false, Message = "Error While Deleting" });
+                }
+                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, ObjFromDb.Image.TrimStart('\\'));
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+                _unitOfWork.MenuItem.Remove(ObjFromDb);
+                _unitOfWork.Save();
+
+            }
+            catch(Exception ex)
             {
                 return Json(new { success = false, Message = "Error While Deleting" });
             }
-           
-            _unitOfWork.MenuItem.Remove(ObjFromDb);
-            _unitOfWork.Save();
             return Json(new { success = true, message = "Delete Successful" });
         }
     }
