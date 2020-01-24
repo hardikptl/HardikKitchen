@@ -49,7 +49,7 @@ namespace HardikKitchen.Controllers
                 _unitOfWork.Save();
 
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return Json(new { success = false, Message = "Error While Deleting" });
             }
