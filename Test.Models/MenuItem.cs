@@ -5,7 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Test.Models
-{
+{   
+    
+    /// <summary>
+    /// MenuItem Model With All Properties 
+    /// </summary>
     public class MenuItem
     {
         public int Id { get; set; }

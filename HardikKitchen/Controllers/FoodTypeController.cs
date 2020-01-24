@@ -8,6 +8,11 @@ using Taste.DataAccess.Data.Repository.IRepository;
 
 namespace HardikKitchen.Controllers
 {
+
+    /// <summary>
+    /// this is FoodType controller to handle get and delete requste of 
+    /// FoodType model.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class FoodTypeController : Controller
@@ -19,6 +24,10 @@ namespace HardikKitchen.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// GET Requste For FoodType
+        /// </summary>
+        /// <returns>json</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -26,6 +35,12 @@ namespace HardikKitchen.Controllers
 
         }
 
+
+        /// <summary>
+        /// Delete Requste for FoodType
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>stutas of message</returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

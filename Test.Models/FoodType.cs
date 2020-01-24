@@ -5,6 +5,10 @@ using System.Text;
 
 namespace Test.Models
 {
+
+    /// <summary>
+    /// FoodType Model with Properties
+    /// </summary>
     public class FoodType
     {
         [Key]

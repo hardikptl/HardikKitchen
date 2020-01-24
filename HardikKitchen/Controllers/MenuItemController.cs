@@ -10,6 +10,11 @@ using Taste.DataAccess.Data.Repository.IRepository;
 
 namespace HardikKitchen.Controllers
 {
+
+    /// <summary>
+    ///  this is MenuItem controller to handle get and delete requste of 
+    /// MenuItem model.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MenuItemController : Controller
@@ -23,6 +28,10 @@ namespace HardikKitchen.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        /// <summary>
+        /// GET Requste For MenuItem
+        /// </summary>
+        /// <returns>json</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -30,6 +39,12 @@ namespace HardikKitchen.Controllers
 
         }
 
+
+        /// <summary>
+        /// Delete Requste for MenuItem
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>stutas of message</returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Test.Models
 {
+    /// <summary>
+    /// Category model with all properties
+    /// </summary>
     public class Category
     {
         //if property name ID byfault  it consider as primary key but you can specify 
