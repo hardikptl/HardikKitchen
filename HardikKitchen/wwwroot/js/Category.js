@@ -28,6 +28,7 @@ function loadList() {
 
                 }, "width": "30%"
             }
+            
         ], 
         "language": {
             "emptytable": "no data found."
