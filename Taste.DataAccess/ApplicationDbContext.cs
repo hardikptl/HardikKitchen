@@ -18,5 +18,6 @@ namespace Taste.DataAccess
         public DbSet<FoodType> FoodTypes { get; set; }
         public DbSet<MenuItem> MenuItem { get; set; }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
