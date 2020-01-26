@@ -10,11 +10,11 @@ namespace HardikKitchen.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ApplicationUserController : Controller
+    public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public ApplicationUserController(IUnitOfWork unitOfWork)
+        public UserController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

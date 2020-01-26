@@ -12,21 +12,9 @@ namespace Taste.DataAccess.Data.Repository
     {
         private readonly ApplicationDbContext _db;
 
-        public ApplicationUserRepository(ApplicationDbContext db) :base(db)
+        public ApplicationUserRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
-        }
-
-        public IEnumerable<SelectListItem> GetCategoryListForDropDown()
-        {
-            return _db.Category.Select(i => new SelectListItem()
-            {
-                Text = i.Name,
-                Value = i.Id.ToString()
-
-
-            });
-           
         }
 
       
