@@ -7,7 +7,7 @@
     <form enctype="multipart/form-data" method="post">
         <div class="container">
             <div class="row px-2 mx-2 backgroundWhite border">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly"  class="text-danger"></div>
                 @if (Model.MenuItemObj.MenuItem.Id != 0)
                 {
                     <input type="hidden" asp-for="MenuItemObj.MenuItem.Id" />
@@ -62,8 +62,11 @@
                                                     Model.MenuItemObj.CategoryList,
                                                     "- Please select a Category -",
                                                     new { @class = "form-control" })
-                            <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.CategoryId"></span>
-                        </div>
+                            @Html.ValidationMessageFor(m => m.MenuItemObj.MenuItem.CategoryId,
+                                                        "",
+                                                        new { @class = "text-danger" })
+                                                    <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.CategoryId"></span>
+                                                </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-3">
@@ -74,6 +77,9 @@
                                                     Model.MenuItemObj.FoodTypeList,
                                                     "- Please select a Food Type -",
                                                     new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.MenuItemObj.MenuItem.FoodTypeId,
+                                                              "", 
+                                                             new { @class = "text-danger" })
                             <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.FoodTypeId"></span>
                         </div>
                     </div>

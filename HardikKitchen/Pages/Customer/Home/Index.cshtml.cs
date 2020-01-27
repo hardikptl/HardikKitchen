@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Taste.DataAccess.Data.Repository.IRepository;
 using Test.Models;
+using Test.Utility;
 
 namespace HardikKitchen.Pages.Customer.Home
 {
@@ -35,6 +38,16 @@ namespace HardikKitchen.Pages.Customer.Home
         /// </summary>
         public void OnGet()
         {
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            //checking session
+            if (claim != null)
+            {   
+                //if session not null then getting customer cart detail if there is any item for order.
+                int ShoppingCartCount = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).ToList().Count;
+                HttpContext.Session.SetInt32(SD.ShoppingCart, ShoppingCartCount);
+            };
             MenuItemList = _unitOfWork.MenuItem.GetAll(null, null, "Category,FoodType");
             CategoryList = _unitOfWork.Category.GetAll(null, q => q.OrderBy(c => c.DisplayOrder), null);
         }

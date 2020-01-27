@@ -26,14 +26,14 @@ namespace Test.Models
         [Range(1,int.MaxValue,ErrorMessage ="Price sholud be greater than 1")]
         public double Price { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "{0} is required.")]
         [Display(Name="Category Type")]
         public int CategoryId { get; set; }
 
         //this is get id from above CategoryId varible and set forreignkey relation 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
-        [Required]
+        [Required(ErrorMessage = "{0} is required.")]
         [Display(Name = "Food Type")]
         public int FoodTypeId{ get; set; }
 
