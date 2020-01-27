@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Taste.DataAccess.Data.Repository.IRepository;
 using Test.Models;
 
-namespace HardikKitchen
+namespace HardikKitchen.Pages.Customer.Home
 {   
     [Authorize]
     public class DetailsModel : PageModel
