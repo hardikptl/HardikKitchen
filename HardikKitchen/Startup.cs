@@ -42,6 +42,12 @@ namespace HardikKitchen
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            //configure session for 10 min timeout  and accept cookie only http and to essesntial
+            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                });
+            
             //setting endpointrouting false and compability version 3.0
             services.AddMvc(options => options.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
@@ -83,7 +89,7 @@ namespace HardikKitchen
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();
