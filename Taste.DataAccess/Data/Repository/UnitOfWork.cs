@@ -18,6 +18,7 @@ namespace Taste.DataAccess.Data.Repository
             FoodType = new FoodTypeRepository(_db);
             MenuItem = new MenuItemRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
+            ShoppingCart = new ShoppingCartRepository(_db);
 
         }        
 
@@ -25,7 +26,7 @@ namespace Taste.DataAccess.Data.Repository
         public IFoodTypeRepository FoodType { get; private set; }
         public IMenuItemRepository MenuItem { get; private set; }
         public IApplicationUserRepository ApplicationUser { get; private set; }
-
+        public IShoppingCartRepository ShoppingCart { get; private set; }
         public void Dispose()
         {
             _db.Dispose();
