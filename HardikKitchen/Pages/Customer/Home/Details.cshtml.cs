@@ -4,10 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Taste.DataAccess.Data.Repository.IRepository;
 using Test.Models;
+using Test.Utility;
 
 namespace HardikKitchen.Pages.Customer.Home
 {   
@@ -49,6 +51,35 @@ namespace HardikKitchen.Pages.Customer.Home
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
                 ShoppingCartObj.ApplicationUserId = claim.Value;
+
+                ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(c => c.ApplicationUserId == ShoppingCartObj.ApplicationUserId &&
+                                        c.MenuItemId == ShoppingCartObj.MenuItemId);
+
+                //add directly if there is no item in cart
+                if (cartFromDb == null)
+                {
+                    _unitOfWork.ShoppingCart.Add(ShoppingCartObj);
+                }
+                //if same item exsit in cart if cx add that same count then 
+                //increment count to exsiting count of that same item
+                else
+                {
+
+                    _unitOfWork.ShoppingCart.IncrementCount(cartFromDb, ShoppingCartObj.Count);
+                }
+                _unitOfWork.Save();
+
+                //
+                var count = _unitOfWork.ShoppingCart.GetAll(c => c.ApplicationUserId == ShoppingCartObj.ApplicationUserId).ToList().Count;
+                HttpContext.Session.SetInt32(SD.ShoppingCart, count);
+                return RedirectToPage("Index");
+
+            }
+            //retun back to page 
+            else
+            {
+                ShoppingCartObj.MenuItem = _unitOfWork.MenuItem.GetFirstOrDefault(includeProperties: "Category,FoodType", filter: c => c.Id == ShoppingCartObj.MenuItemId);
+                return Page();
 
             }
         }
