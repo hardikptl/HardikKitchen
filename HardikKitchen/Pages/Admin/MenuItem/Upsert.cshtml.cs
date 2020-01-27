@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Taste.DataAccess.Data.Repository.IRepository;
 using Test.Models.ViewModels;
 using Test;
-
-
+using Microsoft.AspNetCore.Authorization;
+using Test.Utility;
 
 namespace HardikKitchen.Pages.Admin.MenuItem
 {
+    //only manager can access admin side pages 
+    [Authorize(Roles = SD.ManagerRole)]
     public class UpsertModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;

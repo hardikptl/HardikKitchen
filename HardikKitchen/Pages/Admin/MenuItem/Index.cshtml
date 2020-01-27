@@ -1,9 +1,12 @@
 ﻿@page
+@using Test.Utility
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
+@if (User.IsInRole(SD.ManagerRole))
+{
 <div class="border backgroundWhite container">
     <div class="row ">
         <div class="col-6">
@@ -29,7 +32,13 @@
     </table>
 
 </div>
-
+}
+else
+{
+    <div>
+        <h1 class="text-danger">Access Denied</h1>
+    </div>
+}
 @section Scripts{
     <script src="~/js/MenuItem.js"></script>
 }

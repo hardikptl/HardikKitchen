@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Taste.DataAccess.Data.Repository.IRepository;
@@ -14,6 +15,7 @@ namespace HardikKitchen.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+   
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
