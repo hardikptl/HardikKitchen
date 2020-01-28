@@ -24,8 +24,10 @@ namespace HardikKitchen.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        //GETTNG STATUS AS PARAMETER AND IT COULD BE NULL
+        //ON BASE OF STATUS WILL DISPALY DATA IN ORDERPICKUP
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string status = null)
         {
             List<OrderDetailsVM> orderListVM = new List<OrderDetailsVM>();
 
@@ -42,8 +44,25 @@ namespace HardikKitchen.Controllers
             {
                 OrderHeaderList = _unitOfWork.OrderHeader.GetAll(null, null, "ApplicationUser");
             }
+            //IF STATUS CNACELLED
+            if (status == "cancelled")
+            {
+                OrderHeaderList = OrderHeaderList.Where(o => o.Status == SD.StatusCancelled || o.Status == SD.StatusRefunded || o.Status == SD.PaymentStatusRejected);
+            }
+            else
+            {
+                //IF STATUS COMPLETED
+                if (status == "completed")
+                {
+                    OrderHeaderList = OrderHeaderList.Where(o => o.Status == SD.StatusCompleted);
+                }
+                //IF STATUS PENDING
+                else
+                {
+                    OrderHeaderList = OrderHeaderList.Where(o => o.Status == SD.StatusReady || o.Status == SD.StatusInProcess || o.Status == SD.StatusSubmitted || o.Status == SD.PaymentStatusPending);
+                }
+            }
 
-            
             foreach (OrderHeader item in OrderHeaderList)
             {
                 OrderDetailsVM individual = new OrderDetailsVM
