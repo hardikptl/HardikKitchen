@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Stripe;
 using Taste.DataAccess.Data.Repository.IRepository;
 using Test.Models;
 using Test.Models.ViewModel;
@@ -22,6 +23,7 @@ namespace HardikKitchen.Pages.Customer.Cart
             _unitOfWork = unitOfWork;
         }
 
+        [BindProperty]
         public OrderDetailsCartVM detailCart { get; set; }
 
         public IActionResult OnGet()
@@ -95,7 +97,44 @@ namespace HardikKitchen.Pages.Customer.Cart
             _unitOfWork.Save();
 
 
+
+            if (stripeToken != null)
+            {
+
+                var options = new ChargeCreateOptions
+                {
+                    //Amount is in cents
+                    Amount = Convert.ToInt32(detailCart.OrderHeader.OrderTotal * 100),
+                    Currency = "usd",
+                    Description = "Order ID : " + detailCart.OrderHeader.Id,
+                    Source = stripeToken
+                };
+                var service = new ChargeService();
+                Charge charge = service.Create(options);
+
+                detailCart.OrderHeader.TransactionId = charge.Id;
+
+                if (charge.Status.ToLower() == "succeeded")
+                {
+                    //email 
+                    detailCart.OrderHeader.PaymentStatus = SD.PaymentStatusApproved;
+                    detailCart.OrderHeader.Status = SD.StatusSubmitted;
+                }
+                else
+                {
+                    detailCart.OrderHeader.PaymentStatus = SD.PaymentStatusRejected;
+                }
+            }
+            else
+            {
+                detailCart.OrderHeader.PaymentStatus = SD.PaymentStatusRejected;
+            }
+            _unitOfWork.Save();
+
+            return RedirectToPage("/Customer/Cart/OrderConfirmation", new { id = detailCart.OrderHeader.Id });
+
         }
 
     }
+
 }
