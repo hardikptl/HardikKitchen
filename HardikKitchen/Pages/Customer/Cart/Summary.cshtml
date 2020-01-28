@@ -1,5 +1,7 @@
 ﻿@page
 @model HardikKitchen.Pages.Customer.Cart.SummaryModel
+@inject IOptions<Test.Utility.StripeSettings> Stripe
+@using Microsoft.Extensions.Options
 @{
     ViewData["Title"] = "Summary";
     Layout = "~/Pages/Shared/_Layout.cshtml";
@@ -82,20 +84,20 @@
                                         @{ var total = 0.0;}
                                         @foreach (var details in Model.detailCart.listCart)
                                         {
-                                        <li class="list-group-item d-flex justify-content-between">
-                                            <div>
-                                                <h6 class="my-0">@details.MenuItem.Name</h6>
-                                                <small class="text-muted">Quantity: @details.Count</small>
-                                            </div>
-                                            <span class="text-muted">$@(details.MenuItem.Price * details.Count)</span>
-                                            @{ total += (details.MenuItem.Price * details.Count);}
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <div>
+                                                    <h6 class="my-0">@details.MenuItem.Name</h6>
+                                                    <small class="text-muted">Quantity: @details.Count</small>
+                                                </div>
+                                                <span class="text-muted">$@(details.MenuItem.Price * details.Count)</span>
+                                                @{ total += (details.MenuItem.Price * details.Count);}
+                                            </li>
+                                        }
+                                        <li class="list-group-item d-flex justify-content-between bg-light">
+                                            <small class="text-info">Total (USD)</small>
+                                            <strong class="text-info">$@total.ToString("0.00")</strong>
                                         </li>
-                                                }
-                                    <li class="list-group-item d-flex justify-content-between bg-light">
-                                        <small class="text-info">Total (USD)</small>
-                                        <strong class="text-info">$@total.ToString("0.00")</strong>
-                                    </li>
-                                        </ul>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +105,23 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-12 col-md-4 offset-md-8">
-                                <button type="submit" id="btnPlaceOrder" onclick="return validateInput()" value="Place Order" class="btn btn-success form-control">Place Order</button> 
+                                @{
+                                    var OrderTotalForStripe = Model.detailCart.OrderHeader.OrderTotal * 100;
+                                }
+                                <script src="https://checkout.stripe.com/checkout.js"
+                                        class="stripe-button"
+                                        data-keyboard="@Stripe.Value.PublishableKey"
+                                        data-amount="@OrderTotalForStripe"
+                                        data-name="Taste Restaurant"
+                                        data-label="Place Order"
+                                        data-description="Good Food, Good Mood."
+                                        data-locale="auto"
+                                        data-allow-remember-me="false"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+                                </script>
+
+                                <script>document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';</script>
+                                <button type="submit" id="btnPlaceOrder" onclick="return validateInput()" value="Place Order" class="btn btn-success form-control">Place Order</button>
                             </div>
                         </div>
                     </div>
@@ -115,32 +133,32 @@
 
 @section Scripts{
     <script>
-    $(function () {
-        $("#datepicker").datepicker({ minDate: 1, maxDate: "+1W" });
-        $("#timepicker").timepicker({ 'minTime': '11:00 AM', 'maxTime': '9:00 PM', step: '30' });
-    });
-    function validateInput() {
-        var time = document.getElementById("timepicker").value;
-        var dt = document.getElementById("datepicker").value;
-        var name = document.getElementById("txtName").value;
-        var phone = document.getElementById("txtPhone").value;
-        if (dt.toString() == '') {
-            swal("Error", "Please select pickup Date", "error");
-            return false;
+        $(function () {
+            $("#datepicker").datepicker({ minDate: 1, maxDate: "+1W" });
+            $("#timepicker").timepicker({ 'minTime': '11:00 AM', 'maxTime': '9:00 PM', step: '30' });
+        });
+        function validateInput() {
+            var time = document.getElementById("timepicker").value;
+            var dt = document.getElementById("datepicker").value;
+            var name = document.getElementById("txtName").value;
+            var phone = document.getElementById("txtPhone").value;
+            if (dt.toString() == '') {
+                swal("Error", "Please select pickup Date", "error");
+                return false;
+            }
+            if (time.toString() == '') {
+                swal("Error", "Please select pickup Time", "error");
+                return false;
+            }
+            if (name.toString() == '') {
+                swal("Error", "Please enter picup Name", "error");
+                return false;
+            }
+            if (phone.toString() == '') {
+                swal("Error", "Please enter Phone Number", "error");
+                return false;
+            }
+            return true;
         }
-        if (time.toString() == '') {
-            swal("Error", "Please select pickup Time", "error");
-            return false;
-        }
-        if (name.toString() == '') {
-            swal("Error", "Please enter picup Name", "error");
-            return false;
-        }
-        if (phone.toString() == '') {
-            swal("Error", "Please enter Phone Number", "error");
-            return false;
-        }
-        return true;
-    }
     </script>
 }
