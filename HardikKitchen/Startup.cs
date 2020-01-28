@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using Taste.DataAccess;
 using Taste.DataAccess.Data.Repository.IRepository;
 using Taste.DataAccess.Data.Repository;
+using Test.Utility;
+using Stripe;
 
 namespace HardikKitchen
 {
@@ -47,7 +49,9 @@ namespace HardikKitchen
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
                 });
-            
+
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+
             //setting endpointrouting false and compability version 3.0
             services.AddMvc(options => options.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
@@ -95,7 +99,10 @@ namespace HardikKitchen
             app.UseAuthorization();
 
             app.UseMvc();
-
+           
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
         }
+
+    }
     }
 }
