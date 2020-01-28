@@ -9,9 +9,12 @@ namespace HardikKitchen.Pages.Customer.Cart
 {
     public class OrderConfirmationModel : PageModel
     {
-        public void OnGet()
+        [BindProperty]
+        public int orderId { get; set; }
+        public void OnGet(int id)
         {
-
+            orderId = id;
         }
     }
+    
 }
