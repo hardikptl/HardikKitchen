@@ -59,11 +59,20 @@ namespace HardikKitchen
 
             //add runtimecomplialation to controller and view
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            //configure Facebook External Login
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = "766865420489618";
                 facebookOptions.AppSecret = "7f160a5c1e46b8e3abad11a0f401254a";
             });
+
+            services.AddAuthentication().AddMicrosoftAccount(MicrosoftOptions =>
+            {
+                MicrosoftOptions.ClientId = "e0480b64-e18d-4178-80be-2e7c4715e5dc";
+                MicrosoftOptions.ClientSecret = "L/q883/yha/zWf7lIDN_c1dP[:iZ?08V";
+            });
+
             //services.ConfigureApplicationCookie(options =>
 
             //{
