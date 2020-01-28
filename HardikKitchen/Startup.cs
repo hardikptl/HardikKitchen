@@ -50,6 +50,7 @@ namespace HardikKitchen
                 options.Cookie.IsEssential = true;
                 });
 
+            //configure StripeSetting class from test.utility and passing paramater from appsetting.json
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
 
             //setting endpointrouting false and compability version 3.0
@@ -100,6 +101,7 @@ namespace HardikKitchen
 
             app.UseMvc();
            
+            //configuring api secret key from appsetting.json
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
         }
 
