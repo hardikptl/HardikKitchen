@@ -32,6 +32,8 @@ namespace HardikKitchen.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            //this retive data using store procedure call
+            //return Json(new { data = _unitOfWork.SP_Call.ReturnList<Category>("usp_GetAllCategory", null) });
             return Json(new { data = _unitOfWork.Category.GetAll() });
 
         }
