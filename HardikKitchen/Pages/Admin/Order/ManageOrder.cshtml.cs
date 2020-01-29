@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Stripe;
 using Taste.DataAccess.Data.Repository.IRepository;
 using Test.Models;
 using Test.Models.ViewModel;
@@ -44,7 +45,7 @@ namespace HardikKitchen.Pages.Admin.Order
             }
         }
 
-
+        //post for Order Prepare
         public IActionResult OnPostOrderPrepare(int orderId)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(o => o.Id == orderId);
@@ -52,7 +53,7 @@ namespace HardikKitchen.Pages.Admin.Order
             _unitOfWork.Save();
             return RedirectToPage("ManageOrder");
         }
-
+        //post for Order Ready
         public IActionResult OnPostOrderReady(int orderId)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(o => o.Id == orderId);
@@ -60,7 +61,7 @@ namespace HardikKitchen.Pages.Admin.Order
             _unitOfWork.Save();
             return RedirectToPage("ManageOrder");
         }
-
+        //post for Order cancel
         public IActionResult OnPostOrderCancel(int orderId)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(o => o.Id == orderId);
@@ -69,12 +70,22 @@ namespace HardikKitchen.Pages.Admin.Order
             return RedirectToPage("ManageOrder");
         }
 
+
+        //post for Order Refund
         public IActionResult OnPostOrderRefund(int orderId)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(o => o.Id == orderId);
             //refund amoount
-
+            var options = new RefundCreateOptions
+            {
+                Amount = Convert.ToInt32(orderHeader.OrderTotal * 100),
+                Reason = RefundReasons.RequestedByCustomer, //on customer requste we can put other options as well
+                ChargeId = orderHeader.TransactionId //trcking transaction id for refund
+            };
+            var service = new RefundService();
+            Refund refund = service.Create(options);
             orderHeader.Status = SD.StatusRefunded;
+
             _unitOfWork.Save();
             return RedirectToPage("ManageOrder");
         }
