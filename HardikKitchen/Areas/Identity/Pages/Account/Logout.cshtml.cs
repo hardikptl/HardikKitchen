@@ -20,8 +20,7 @@ namespace HardikKitchen.Areas.Identity.Pages.Account
 
         public LogoutModel(SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
         {
-            //if user logout clearing shopping cart session and set to zero
-            HttpContext.Session.SetInt32(SD.ShoppingCart, 0);
+          
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -32,6 +31,8 @@ namespace HardikKitchen.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
+            //if user logout clearing shopping cart session and set to zero
+            HttpContext.Session.SetInt32(SD.ShoppingCart, 0);
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)

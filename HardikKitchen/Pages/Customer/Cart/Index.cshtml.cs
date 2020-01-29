@@ -46,13 +46,10 @@ namespace HardikKitchen.Pages.Customer.Cart
             //if user not loggedin display emptycart with add to cart msg or display item list
             if (claim != null)
             {
-                //getting all item from cart as per loggedin user 
                 IEnumerable<ShoppingCart> cart = _unitOfWork.ShoppingCart.GetAll(c => c.ApplicationUserId == claim.Value);
-
 
                 if (cart != null)
                 {
-                    //display all item detail in list 
                     OrderDetailsCartVM.listCart = cart.ToList();
                 }
 
