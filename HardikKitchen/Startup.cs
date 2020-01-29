@@ -54,9 +54,10 @@ namespace HardikKitchen
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
 
             //setting endpointrouting false and compability version 3.0
-            services.AddMvc(options => options.EnableEndpointRouting = false)
-                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+            //services.AddMvc(options => options.EnableEndpointRouting = false)
+            //    .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
+            services.AddRazorPages();
             //add runtimecomplialation to controller and view
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
@@ -108,12 +109,18 @@ namespace HardikKitchen
             app.UseStaticFiles();
 
             app.UseSession();
-
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMvc();
-           
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
+            });
+
+            // app.UseMvc();
+
             //configuring api secret key from appsetting.json
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
         }
