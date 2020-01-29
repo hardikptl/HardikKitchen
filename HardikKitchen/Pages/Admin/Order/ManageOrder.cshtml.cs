@@ -44,5 +44,39 @@ namespace HardikKitchen.Pages.Admin.Order
             }
         }
 
+
+        public IActionResult OnPostOrderPrepare(int orderId)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(o => o.Id == orderId);
+            orderHeader.Status = SD.StatusInProcess;
+            _unitOfWork.Save();
+            return RedirectToPage("ManageOrder");
+        }
+
+        public IActionResult OnPostOrderReady(int orderId)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(o => o.Id == orderId);
+            orderHeader.Status = SD.StatusReady;
+            _unitOfWork.Save();
+            return RedirectToPage("ManageOrder");
+        }
+
+        public IActionResult OnPostOrderCancel(int orderId)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(o => o.Id == orderId);
+            orderHeader.Status = SD.StatusCancelled;
+            _unitOfWork.Save();
+            return RedirectToPage("ManageOrder");
+        }
+
+        public IActionResult OnPostOrderRefund(int orderId)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(o => o.Id == orderId);
+            //refund amoount
+
+            orderHeader.Status = SD.StatusRefunded;
+            _unitOfWork.Save();
+            return RedirectToPage("ManageOrder");
+        }
     }
 }
