@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.IO;
 using Taste.DataAccess.Data.Repository.IRepository;
 using Test.Models.ViewModels;
-using Test;
-using Microsoft.AspNetCore.Authorization;
 using Test.Utility;
 
 namespace HardikKitchen.Pages.Admin.MenuItem
@@ -25,12 +21,13 @@ namespace HardikKitchen.Pages.Admin.MenuItem
         {
             _unitOfWork = unitOfWork;
             _hostingEnvironment = hostingEnvironment;
-            
+
         }
 
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public MenuItemVM MenuItemObj { get; set; }
 
+       
         public IActionResult OnGet(int? id)
         {
             MenuItemObj = new MenuItemVM
@@ -57,58 +54,70 @@ namespace HardikKitchen.Pages.Admin.MenuItem
             string webRootPath = _hostingEnvironment.WebRootPath;
             var files = HttpContext.Request.Form.Files;
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return Page();
-            }
-            if (MenuItemObj.MenuItem.Id == 0)
-            {
-                string fileName = Guid.NewGuid().ToString();
-                var uploads = Path.Combine(webRootPath, @"images\menuItems");
-                var extension = Path.GetExtension(files[0].FileName);
 
-                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
-                {
-                    files[0].CopyTo(fileStream);
-                }
-                MenuItemObj.MenuItem.Image = @"\images\menuItems\" + fileName + extension;
-
-                _unitOfWork.MenuItem.Add(MenuItemObj.MenuItem);
-            }
-            else
-            {
-                //Edit Menu Item
-                var objFromDb = _unitOfWork.MenuItem.Get(MenuItemObj.MenuItem.Id);
-                if (files.Count > 0)
+                if (MenuItemObj.MenuItem.Id == 0)
                 {
                     string fileName = Guid.NewGuid().ToString();
                     var uploads = Path.Combine(webRootPath, @"images\menuItems");
                     var extension = Path.GetExtension(files[0].FileName);
-
-                    var imagePath = Path.Combine(webRootPath, objFromDb.Image.TrimStart('\\'));
-
-                    if (System.IO.File.Exists(imagePath))
-                    {
-                        System.IO.File.Delete(imagePath);
-                    }
-
 
                     using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
                     {
                         files[0].CopyTo(fileStream);
                     }
                     MenuItemObj.MenuItem.Image = @"\images\menuItems\" + fileName + extension;
+
+                    _unitOfWork.MenuItem.Add(MenuItemObj.MenuItem);
                 }
                 else
                 {
-                    MenuItemObj.MenuItem.Image = objFromDb.Image;
+                    //Edit Menu Item
+                    var objFromDb = _unitOfWork.MenuItem.Get(MenuItemObj.MenuItem.Id);
+                    if (files.Count > 0)
+                    {
+                        string fileName = Guid.NewGuid().ToString();
+                        var uploads = Path.Combine(webRootPath, @"images\menuItems");
+                        var extension = Path.GetExtension(files[0].FileName);
+
+                        var imagePath = Path.Combine(webRootPath, objFromDb.Image.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+
+
+                        using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                        {
+                            files[0].CopyTo(fileStream);
+                        }
+                        MenuItemObj.MenuItem.Image = @"\images\menuItems\" + fileName + extension;
+                    }
+                    else
+                    {
+                        MenuItemObj.MenuItem.Image = objFromDb.Image;
+                    }
+
+
+                    _unitOfWork.MenuItem.Update(MenuItemObj.MenuItem);
                 }
-
-
-                _unitOfWork.MenuItem.Update(MenuItemObj.MenuItem);
+                _unitOfWork.Save();
+                return RedirectToPage("./Index");
             }
-            _unitOfWork.Save();
-            return RedirectToPage("./Index");
+            else
+            {
+                MenuItemObj = new MenuItemVM
+                {
+                    CategoryList = _unitOfWork.Category.GetCategoryListForDropDown(),
+                    FoodTypeList = _unitOfWork.FoodType.GetFoodTypeListForDropDown(),
+                    MenuItem = new Test.Models.MenuItem()
+                };
+               
+                return  Page();
+            }
+        
         }
 
     }

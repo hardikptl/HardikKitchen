@@ -1,144 +1,145 @@
 ﻿@page
 @model HardikKitchen.Pages.Admin.MenuItem.UpsertModel
 
-@using (Html.BeginForm( FormMethod.Post, new { enctype = "multipart/form-data" })) { }
 
 
-    <form enctype="multipart/form-data" method="post">
-        <div class="container">
-            <div class="row px-2 mx-2 backgroundWhite border">
-                <div asp-validation-summary="ModelOnly"  class="text-danger"></div>
-                @if (Model.MenuItemObj.MenuItem.Id != 0)
-                {
-                    <input type="hidden" asp-for="MenuItemObj.MenuItem.Id" />
-                }
 
-                <div class="col-12 px-3" style="border-bottom:1px solid #325d88">
-                    <h2 class="text-primary">@(Model.MenuItemObj.MenuItem.Id != 0 ? "Update" : "Create") Menu Item</h2>
+<form enctype="multipart/form-data" method="post">
+    <div class="container">
+        <div class="row px-2 mx-2 backgroundWhite border">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (Model.MenuItemObj.MenuItem.Id != 0)
+            {
+                <input type="hidden" asp-for="MenuItemObj.MenuItem.Id" />
+            }
+
+            <div class="col-12 px-3" style="border-bottom:1px solid #325d88">
+                <h2 class="text-primary">@(Model.MenuItemObj.MenuItem.Id != 0 ? "Update" : "Create") Menu Item</h2>
+            </div>
+
+            <div class="col-8 pt-3">
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="MenuItemObj.MenuItem.Name">Name</label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="MenuItemObj.MenuItem.Name" />
+                        <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.Name"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="MenuItemObj.MenuItem.Price"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="MenuItemObj.MenuItem.Price" />
+                        <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.Price"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="MenuItemObj.MenuItem.Description"></label>
+                    </div>
+                    <div class="col-9">
+                        <textarea class="form-control" asp-for="MenuItemObj.MenuItem.Description" id="txtDesc" style="height:200px;"></textarea>
+                    </div>
                 </div>
 
-                <div class="col-8 pt-3">
-                    <div class="form-group row">
-                        <div class="col-3">
-                            <label asp-for="MenuItemObj.MenuItem.Name">Name</label>
-                        </div>
-                        <div class="col-9">
-                            <input class="form-control" asp-for="MenuItemObj.MenuItem.Name" />
-                            <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.Name"></span>
-                        </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="MenuItemObj.MenuItem.Image"></label>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-3">
-                            <label asp-for="MenuItemObj.MenuItem.Price"></label>
-                        </div>
-                        <div class="col-9">
-                            <input class="form-control" asp-for="MenuItemObj.MenuItem.Price" />
-                            <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.Price"></span>
-                        </div>
+                    <div class="col-9">
+                        <input type="file" asp-for="MenuItemObj.MenuItem.Image" class="form-control" name="files" />
                     </div>
-                    <div class="form-group row">
-                        <div class="col-3">
-                            <label asp-for="MenuItemObj.MenuItem.Description"></label>
-                        </div>
-                        <div class="col-9">
-                            <textarea class="form-control" asp-for="MenuItemObj.MenuItem.Description" id="txtDesc" style="height:200px;"></textarea>
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="MenuItemObj.MenuItem.CategoryId"></label>
                     </div>
+                    <div class="col-9">
+                        @Html.DropDownListFor(m => m.MenuItemObj.MenuItem.CategoryId,
+                                                Model.MenuItemObj.CategoryList,
+                                                "- Please select a Category -",
+                                                new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.MenuItemObj.MenuItem.CategoryId,
+                                                    "",
+                                                    new { @class = "text-danger" })
+                        <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.CategoryId"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="MenuItemObj.MenuItem.FoodTypeId"></label>
+                    </div>
+                    <div class="col-9">
+                        @Html.DropDownListFor(m => m.MenuItemObj.MenuItem.FoodTypeId,
+                                                Model.MenuItemObj.FoodTypeList,
+                                                "- Please select a Food Type -",
+                                                new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.MenuItemObj.MenuItem.FoodTypeId,
+                                                          "",
+                                                         new { @class = "text-danger" })
+                        <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.FoodTypeId"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-9 offset-3">
+                        <div class="row">
+                            <div class="col-6">
 
-                    <div class="form-group row">
-                        <div class="col-3">
-                            <label asp-for="MenuItemObj.MenuItem.Image"></label>
-                        </div>
-                        <div class="col-9">
-                            <input type="file" asp-for="MenuItemObj.MenuItem.Image" class="form-control"  name="files" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-3">
-                            <label asp-for="MenuItemObj.MenuItem.CategoryId"></label>
-                        </div>
-                        <div class="col-9">
-                            @Html.DropDownListFor(m => m.MenuItemObj.MenuItem.CategoryId,
-                                                    Model.MenuItemObj.CategoryList,
-                                                    "- Please select a Category -",
-                                                    new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.MenuItemObj.MenuItem.CategoryId,
-                                                        "",
-                                                        new { @class = "text-danger" })
-                                                    <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.CategoryId"></span>
-                                                </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-3">
-                            <label asp-for="MenuItemObj.MenuItem.FoodTypeId"></label>
-                        </div>
-                        <div class="col-9">
-                            @Html.DropDownListFor(m => m.MenuItemObj.MenuItem.FoodTypeId,
-                                                    Model.MenuItemObj.FoodTypeList,
-                                                    "- Please select a Food Type -",
-                                                    new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.MenuItemObj.MenuItem.FoodTypeId,
-                                                              "", 
-                                                             new { @class = "text-danger" })
-                            <span class="text-danger" asp-validation-for="MenuItemObj.MenuItem.FoodTypeId"></span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-9 offset-3">
-                            <div class="row">
-                                <div class="col-6">
+                                @if (Model.MenuItemObj.MenuItem.Id != 0)
+                                {
+                                    <button type="submit" class="btn btn-primary form-control">Update</button>
+                                }
+                                else
+                                {
+                                    <button type="submit" onclick="return ValidateInput()" class="btn btn-primary form-control">Create</button>
+                                }
 
-                                    @if (Model.MenuItemObj.MenuItem.Id != 0)
-                                    {
-                                        <button type="submit" class="btn btn-primary form-control">Update</button>
-                                    }
-                                    else
-                                    {
-                                        <button type="submit" onclick="return ValidateInput()" class="btn btn-primary form-control">Create</button>
-                                    }
-
-                                </div>
-                                <div class="col-6">
-                                    <a asp-page="./Index" class="btn btn-success form-control">Back to List</a>
-                                </div>
+                            </div>
+                            <div class="col-6">
+                                <a asp-page="./Index" class="btn btn-success form-control">Back to List</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                @if (Model.MenuItemObj.MenuItem != null)
-                {
-                    <div class="col-4 p-4">
-                        <img src="@Model.MenuItemObj.MenuItem.Image"   style="border-radius:5px; border:1px solid #bbb9b9;width:100% " />
-                    </div>
-                }
-
             </div>
+
+            @if (Model.MenuItemObj.MenuItem != null)
+            {
+                <div class="col-4 p-4">
+                    <img src="@Model.MenuItemObj.MenuItem.Image" style="border-radius:5px; border:1px solid #bbb9b9;width:100% " />
+                </div>
+            }
+
         </div>
-    </form>
+    </div>
+</form>
 
-    <!--this for designing text area of description in create new menu item page
-        using Tinymce javascript from _layout page
-        -->
-    @section Scripts{
-        <script>
+<!--this for designing text area of description in create new menu item page
+    using Tinymce javascript from _layout page
+    -->
+@section Scripts{
+    <script>
 
-            tinymce.init({
-                selector: 'txtDesc',
-                plugins: "lists",
-                menubar: 'file edit format'
+        tinymce.init({
+            selector: 'txtDesc',
+            plugins: "lists",
+            menubar: 'file edit format'
 
-            });
-            /** this is validate Image input tag */
-            function ValidateInput() {
-                if (document.getElementsByName("files").value = "") {
-                    swal("Error", "Please Select an Image", "error")
-                    return false;
+        });
+        /** this is validate Image input tag */
+        function ValidateInput() {
+            if (document.getElementsByName("files").value = "") {
+                swal("Error", "Please Select an Image", "error")
+                return false;
 
-                }
-                return true;
-            };
+            }
+            return true;
+        };
 
-            <partial name="_ValidationScriptsPartial" />
-        </script>
-    }
+        <partial name="_ValidationScriptsPartial" />
+    </script>
+}
+
