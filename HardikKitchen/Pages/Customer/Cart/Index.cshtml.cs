@@ -31,7 +31,8 @@ namespace HardikKitchen.Pages.Customer.Cart
             //intializing order 
             OrderDetailsCartVM = new OrderDetailsCartVM()
             {
-                OrderHeader = new Test.Models.OrderHeader()
+                OrderHeader = new Test.Models.OrderHeader(),
+                listCart = new List<ShoppingCart>()
             };
              
             //set orderTotal = 0
@@ -41,20 +42,25 @@ namespace HardikKitchen.Pages.Customer.Cart
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            //getting all item from cart as per loggedin user 
-            IEnumerable<ShoppingCart> cart = _unitOfWork.ShoppingCart.GetAll(c => c.ApplicationUserId == claim.Value);
 
-
-            if (cart != null)
+            //if user not loggedin display emptycart with add to cart msg or display item list
+            if (claim != null)
             {
-                //display all item detail in list 
-                OrderDetailsCartVM.listCart = cart.ToList();
-            }
+                //getting all item from cart as per loggedin user 
+                IEnumerable<ShoppingCart> cart = _unitOfWork.ShoppingCart.GetAll(c => c.ApplicationUserId == claim.Value);
 
-            foreach (var cartList in OrderDetailsCartVM.listCart)
-            {
-                cartList.MenuItem = _unitOfWork.MenuItem.GetFirstOrDefault(m => m.Id == cartList.MenuItemId);
-                OrderDetailsCartVM.OrderHeader.OrderTotal += (cartList.MenuItem.Price * cartList.Count);
+
+                if (cart != null)
+                {
+                    //display all item detail in list 
+                    OrderDetailsCartVM.listCart = cart.ToList();
+                }
+
+                foreach (var cartList in OrderDetailsCartVM.listCart)
+                {
+                    cartList.MenuItem = _unitOfWork.MenuItem.GetFirstOrDefault(m => m.Id == cartList.MenuItemId);
+                    OrderDetailsCartVM.OrderHeader.OrderTotal += (cartList.MenuItem.Price * cartList.Count);
+                }
             }
         }
 

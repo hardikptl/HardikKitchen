@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Test.Utility;
 
 namespace HardikKitchen.Areas.Identity.Pages.Account
 {
@@ -18,6 +20,8 @@ namespace HardikKitchen.Areas.Identity.Pages.Account
 
         public LogoutModel(SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
         {
+            //if user logout clearing shopping cart session and set to zero
+            HttpContext.Session.SetInt32(SD.ShoppingCart, 0);
             _signInManager = signInManager;
             _logger = logger;
         }
