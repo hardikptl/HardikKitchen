@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Taste.DataAccess.Data.Repository.IRepository;
@@ -27,6 +28,7 @@ namespace HardikKitchen.Controllers
         //GETTNG STATUS AS PARAMETER AND IT COULD BE NULL
         //ON BASE OF STATUS WILL DISPALY DATA IN ORDERPICKUP
         [HttpGet]
+        [Authorize]
         public IActionResult Get(string status = null)
         {
             List<OrderDetailsVM> orderListVM = new List<OrderDetailsVM>();
