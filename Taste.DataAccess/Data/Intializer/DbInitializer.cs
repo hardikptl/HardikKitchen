@@ -9,7 +9,7 @@ using Test.Utility;
 
 namespace Taste.DataAccess.Data.Intializer
 {
-    public class DbInitializer : IDbInitializer
+    class DbInitializer : IDbInitializer
     {
 
         private readonly ApplicationDbContext _db;
