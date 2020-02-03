@@ -16,6 +16,7 @@ using Taste.DataAccess.Data.Repository.IRepository;
 using Taste.DataAccess.Data.Repository;
 using Test.Utility;
 using Stripe;
+using Taste.DataAccess.Data.Intializer;
 
 namespace HardikKitchen
 {
@@ -43,6 +44,7 @@ namespace HardikKitchen
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             //configure session for 10 min timeout  and accept cookie only http and to essesntial
             services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(10);
@@ -91,7 +93,7 @@ namespace HardikKitchen
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -109,6 +111,7 @@ namespace HardikKitchen
             app.UseStaticFiles();
 
             app.UseSession();
+            dbInitializer.Initialize();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

@@ -9,7 +9,7 @@ using Test.Utility;
 
 namespace Taste.DataAccess.Data.Intializer
 {
-    class DbInitializer : IDbInitializer
+    public class DbInitializer : IDbInitializer
     {
 
         private readonly ApplicationDbContext _db;
@@ -51,15 +51,15 @@ namespace Taste.DataAccess.Data.Intializer
             //creating first admin user for Manager Role
             _userManager.CreateAsync(new ApplicationUser
             {
-                UserName = "admin123@gmail.com",
-                Email = "admin123@gmail.com",
+                UserName = "hardik123@gmail.com",
+                Email = "hardik123@gmail.com",
                 EmailConfirmed = true,
                 FirstName = "Hardik",
                 LastName = "Patel"
-            }, "Admin@123").GetAwaiter().GetResult();
+            }, "Hardik@123").GetAwaiter().GetResult();
 
             ApplicationUser user = _db.ApplicationUser.Where
-                (u => u.Email == "admin123@gmail.com").FirstOrDefault();
+                (u => u.Email == "hardik123@gmail.com").FirstOrDefault();
 
             _userManager.AddToRoleAsync(user, SD.ManagerRole).GetAwaiter().GetResult();
         }
