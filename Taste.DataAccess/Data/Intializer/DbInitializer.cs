@@ -36,7 +36,7 @@ namespace Taste.DataAccess.Data.Intializer
                     _db.Database.Migrate();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -56,9 +56,9 @@ namespace Taste.DataAccess.Data.Intializer
                 EmailConfirmed = true,
                 FirstName = "Hardik",
                 LastName = "Patel"
-            }, "Admin@123*").GetAwaiter().GetResult();
+            }, "Admin@123").GetAwaiter().GetResult();
 
-            ApplicationUser user = _db.ApplicationUsers.Where
+            ApplicationUser user = _db.ApplicationUser.Where
                 (u => u.Email == "admin123@gmail.com").FirstOrDefault();
 
             _userManager.AddToRoleAsync(user, SD.ManagerRole).GetAwaiter().GetResult();

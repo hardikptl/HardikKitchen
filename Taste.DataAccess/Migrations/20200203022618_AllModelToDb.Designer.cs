@@ -10,14 +10,14 @@ using Taste.DataAccess;
 namespace Taste.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200127231922_AddOrderToDb")]
-    partial class AddOrderToDb
+    [Migration("20200203022618_AllModelToDb")]
+    partial class AllModelToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -255,7 +255,7 @@ namespace Taste.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FoodTypes");
+                    b.ToTable("FoodType");
                 });
 
             modelBuilder.Entity("Test.Models.MenuItem", b =>

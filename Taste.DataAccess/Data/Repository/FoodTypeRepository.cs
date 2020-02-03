@@ -17,7 +17,7 @@ namespace Taste.DataAccess.Data.Repository
         }
         public IEnumerable<SelectListItem> GetFoodTypeListForDropDown()
         {
-            return _db.FoodTypes.Select(i => new SelectListItem()
+            return _db.FoodType.Select(i => new SelectListItem()
             {
                 Text = i.Name,
                 Value = i.Id.ToString()
@@ -28,7 +28,7 @@ namespace Taste.DataAccess.Data.Repository
 
         public void Update(FoodType foodType)
         {
-            var objFromDb = _db.FoodTypes.FirstOrDefault(s => s.Id == foodType.Id);
+            var objFromDb = _db.FoodType.FirstOrDefault(s => s.Id == foodType.Id);
             objFromDb.Name = foodType.Name;
             _db.SaveChanges();
         }

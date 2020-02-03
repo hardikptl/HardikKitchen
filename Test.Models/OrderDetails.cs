@@ -12,11 +12,13 @@ namespace Test.Models
 
         [Required]
         public int OrderId { get; set; }
+
         [ForeignKey("OrderId")]
         public virtual OrderHeader OrderHeader { get; set; }
 
         [Required]
         public int MenuItemId { get; set; }
+
         [ForeignKey("MenuItemId")]
         public virtual MenuItem MenuItem { get; set; }
 

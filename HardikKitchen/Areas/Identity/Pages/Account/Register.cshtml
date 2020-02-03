@@ -62,10 +62,14 @@
                                 <input type="radio" name="rdUserRole" value="@SD.CustomerRole" /> @SD.CustomerRole
 
                             </div>
+
+                        }
                             <div class="py-2">
                                 <button type="submit" class="btn btn-success form-control">Register</button>
                             </div>
-                        }
+                        
+
+
                     </form>
                     @if (!User.IsInRole(SD.ManagerRole))
                     {
