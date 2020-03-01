@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'kitchenhardik'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_095b13b73c6146a5ba77ccce3a946214 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_89b3769fad0b4da7a9942f861bfd90df }}
         package: ${{env.DOTNET_ROOT}}/myapp 
